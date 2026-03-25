@@ -2,8 +2,6 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 
-from src.browser_finder import get_any_available_browser
-
 
 class Solver:
     _driver: WebDriver
@@ -12,10 +10,8 @@ class Solver:
         _driver = driver.get("https://www.equestions.com.br/escola/aluno/q-quiz.asp")
 
     def run(self):
-        driver = get_any_available_browser()
-
         try:
-            driver.get("https://www.equestions.com.br/escola/aluno/q-quiz.asp")
+            self._driver.get("https://www.equestions.com.br/escola/aluno/q-quiz.asp")
 
             linha_divs = self.get_quiz_questions()
 
@@ -32,11 +28,11 @@ class Solver:
                     continue  # Skip if the text is "100,0%"
 
                 # Click the link if the text is not "100,0%"
-                ActionChains(driver).move_to_element(link).click(link).perform()
+                ActionChains(self._driver).move_to_element(link).click(link).perform()
 
         finally:
             # Close the browser
-            driver.quit()
+            self._driver.quit()
 
     def get_quiz_questions(self):
         # Find the div with class "tabelaqi"
